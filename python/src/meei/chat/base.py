@@ -2,6 +2,7 @@
 Chat Provider 基礎類別
 """
 
+import os
 import time
 from abc import ABC, abstractmethod
 from typing import Optional, List, Dict, Any, Generator, Union
@@ -11,6 +12,15 @@ import httpx
 from meei.config import config
 from meei.tracker import track
 from meei.exceptions import AuthenticationError, RateLimitError, APIError
+
+# 環境變數名稱對照
+ENV_KEY_MAP = {
+    "deepseek": "DEEPSEEK_API_KEY",
+    "openai": "OPENAI_API_KEY",
+    "gemini": "GEMINI_API_KEY",
+    "qwen": "QWEN_API_KEY",
+    "grok": "GROK_API_KEY",
+}
 
 
 class ChatProvider(ABC):
@@ -31,13 +41,27 @@ class ChatProvider(ABC):
 
     @property
     def api_key(self) -> str:
-        """取得 API key"""
-        key = config.get(f"{self.PROVIDER_NAME}.api_key")
-        if not key:
-            raise AuthenticationError(
-                self.PROVIDER_NAME,
-                f"未設定 API key，請執行: meei config set {self.PROVIDER_NAME}.api_key YOUR_KEY",
-            )
+        """取得 API key（優先順序：meei config > 環境變數）"""
+        # 1. 先從 meei config 取得
+        try:
+            key = config.get(f"{self.PROVIDER_NAME}.api_key")
+            if key:
+                return key
+        except Exception:
+            pass
+
+        # 2. Fallback 到環境變數
+        env_name = ENV_KEY_MAP.get(self.PROVIDER_NAME)
+        if env_name:
+            key = os.environ.get(env_name)
+            if key:
+                return key
+
+        raise AuthenticationError(
+            self.PROVIDER_NAME,
+            f"未設定 API key，請執行: meei config set {self.PROVIDER_NAME}.api_key YOUR_KEY\n"
+            f"或設定環境變數: {ENV_KEY_MAP.get(self.PROVIDER_NAME, self.PROVIDER_NAME.upper() + '_API_KEY')}",
+        )
         return key
 
     @property
