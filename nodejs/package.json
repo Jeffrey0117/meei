@@ -1,0 +1,22 @@
+{
+  "name": "meei",
+  "version": "0.1.0",
+  "description": "統一 AI Chat 介面 - 支援 DeepSeek, OpenAI, Gemini, Qwen, Grok",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["ai", "chat", "llm", "deepseek", "openai", "gemini", "qwen", "grok"],
+  "author": "Jeffrey",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}
