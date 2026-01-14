@@ -1,8 +1,18 @@
 # meei
 
-統一 AI Chat 介面 - 一套 API 打所有 LLM
+**Unified AI SDK for Developers** - 統一多家 LLM 的程式介面
 
-## 支援 Provider
+> 這是開發用的 SDK，讓你在程式碼中用同一套 API 呼叫 DeepSeek、OpenAI、Gemini、Qwen、Grok 等 LLM。
+> 支援 Python 和 Node.js/TypeScript。
+
+## 為什麼用 meei？
+
+- **統一介面**: 換 provider 只改一個參數，不用重寫程式
+- **模型別名**: 用 `4o` 取代 `gpt-4o`，用 `r1` 取代 `deepseek-reasoner`
+- **用量追蹤**: 自動記錄 token 用量和花費
+- **串流支援**: 內建串流輸出
+
+## 支援的 Provider
 
 | Provider | 模型 | 別名 |
 |----------|------|------|
@@ -14,49 +24,40 @@
 
 ## 安裝
 
-### Python
-
 ```bash
-cd python
-pip install -e .
-```
+# Python
+cd python && pip install -e .
 
-### Node.js
-
-```bash
-cd nodejs
-npm install
-npm run build
+# Node.js
+cd nodejs && npm install && npm run build
 ```
 
 ## 設定 API Key
 
 ```bash
-# Python
 meei config set deepseek.api_key sk-xxx
 meei config set openai.api_key sk-xxx
-
 # 或直接編輯 ~/.meei/config.json
 ```
 
-## 使用方式
+## Quick Start
 
 ### Python
 
 ```python
 from meei.chat import chat
 
-# 統一介面 - 切換 provider 只改 pv 參數
+# 切 provider 只改 pv 參數
 response = chat.ask("你好", pv="deepseek")
 response = chat.ask("Hello", pv="openai", model="4o")
-response = chat.ask("寫程式", pv="gemini", model="pro")
 
 # 快捷函數
 from meei.chat.deepseek import deepseek
-from meei.chat.openai import openai
-
 response = deepseek("寫個快速排序", model="coder")
-response = openai("解釋量子力學", model="4o")
+
+# 串流
+for chunk in chat.ask("講個故事", pv="deepseek", stream=True):
+    print(chunk, end="")
 
 # 多輪對話
 messages = [
@@ -65,34 +66,15 @@ messages = [
     {"role": "user", "content": "我叫什麼？"},
 ]
 response = chat.conversation(messages, pv="deepseek")
-
-# 串流輸出
-for chunk in chat.ask("講個故事", pv="deepseek", stream=True):
-    print(chunk, end="")
-
-# System prompt
-response = chat.ask(
-    "寫個網頁",
-    pv="deepseek",
-    model="coder",
-    system="你是資深前端工程師，用 React + TypeScript",
-    temperature=0.7,
-    max_tokens=2000,
-)
 ```
 
 ### Node.js / TypeScript
 
 ```typescript
-import { chat, deepseek, openai } from 'meei';
+import { chat, deepseek } from 'meei';
 
-// 統一介面
 const response = await chat.ask("你好", { pv: "deepseek" });
-const response = await chat.ask("Hello", { pv: "openai", model: "4o" });
-
-// 快捷函數
-const response = await deepseek("寫個快速排序", { model: "coder" });
-const response = await openai("解釋量子力學", { model: "4o" });
+const response = await deepseek("寫程式", { model: "coder" });
 
 // 多輪對話
 const messages = [
@@ -101,44 +83,20 @@ const messages = [
     { role: "user", content: "我叫什麼？" },
 ];
 const response = await chat.conversation(messages, { pv: "deepseek" });
-
-// 帶選項
-const response = await chat.ask("寫個網頁", {
-    pv: "deepseek",
-    model: "coder",
-    system: "你是資深前端工程師",
-    temperature: 0.7,
-    maxTokens: 2000,
-});
 ```
 
 ## 用量追蹤
 
-所有請求自動記錄到 `~/.meei/usage.json`，包含：
-- Provider / Model
-- Input / Output tokens
-- 花費 (USD)
-- 延遲 (ms)
-
-開啟 `dashboard/index.html` 查看視覺化統計。
+所有請求自動記錄到 `~/.meei/usage.json`（token 數、花費、延遲）。
+開 `dashboard/index.html` 可看視覺化統計。
 
 ## 專案結構
 
 ```
 meei/
-├── python/           # Python SDK
-│   └── src/meei/
-│       ├── chat/     # Chat providers
-│       ├── config.py # 設定管理
-│       └── tracker.py # 用量追蹤
-├── nodejs/           # Node.js SDK (TypeScript)
-│   └── src/
-│       ├── chat/     # Chat providers
-│       ├── config.ts
-│       └── tracker.ts
-└── dashboard/        # 用量儀表板
-    ├── index.html
-    └── app.js
+├── python/     # Python SDK
+├── nodejs/     # Node.js SDK (TypeScript)
+└── dashboard/  # 用量儀表板
 ```
 
 ## License
