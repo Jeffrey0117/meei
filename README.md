@@ -34,33 +34,48 @@ cd nodejs && npm install && npm run build
 
 ## 設定 API Key
 
-**推薦：設定全局環境變數（所有專案通用）**
+三種方式（任選一種）：
+
+### 方式一：全局 .env 檔案（推薦）
+
+把 API Key 放在 `~/.meei/.env`，所有專案自動讀取：
 
 ```bash
-# Windows (系統環境變數或 PowerShell profile)
+# Windows
+mkdir %USERPROFILE%\.meei
+notepad %USERPROFILE%\.meei\.env
+
+# Linux/Mac
+mkdir -p ~/.meei
+nano ~/.meei/.env
+```
+
+`.env` 內容：
+```bash
+DEEPSEEK_API_KEY=sk-xxx
+OPENAI_API_KEY=sk-xxx
+GEMINI_API_KEY=AIza-xxx
+QWEN_API_KEY=sk-xxx
+GROQ_API_KEY=gsk_xxx
+```
+
+### 方式二：系統環境變數
+
+```bash
+# Windows (PowerShell)
 setx DEEPSEEK_API_KEY "sk-xxx"
 setx OPENAI_API_KEY "sk-xxx"
-setx GEMINI_API_KEY "AIza-xxx"
-setx QWEN_API_KEY "sk-xxx"
-setx GROQ_API_KEY "gsk_xxx"
 
 # Linux/Mac (~/.bashrc 或 ~/.zshrc)
 export DEEPSEEK_API_KEY="sk-xxx"
 export OPENAI_API_KEY="sk-xxx"
-export GEMINI_API_KEY="AIza-xxx"
-export QWEN_API_KEY="sk-xxx"
-export GROQ_API_KEY="gsk_xxx"
 ```
 
-**或專案 `.env` 檔案：**
+### 方式三：專案 .env 檔案
 
-```bash
-# 在專案根目錄建立 .env
-DEEPSEEK_API_KEY=sk-xxx
-OPENAI_API_KEY=sk-xxx
-```
+在專案根目錄建立 `.env`（只有該專案能用）。
 
-API Key 優先級：環境變數 > ~/.meei/config.json > 專案 .env
+**優先級**：系統環境變數 > 專案 .env > ~/.meei/.env
 
 ## Quick Start
 

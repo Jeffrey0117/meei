@@ -21,6 +21,41 @@
  * ```
  */
 
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
+import { homedir } from 'os';
+
+// 自動載入 .env（優先級：系統環境變數 > 專案 .env > ~/.meei/.env）
+function loadEnv(): void {
+  const envLocations = [
+    join(process.cwd(), '.env'),           // 專案目錄
+    join(homedir(), '.meei', '.env'),      // 全局設定
+  ];
+
+  for (const envPath of envLocations) {
+    if (existsSync(envPath)) {
+      try {
+        const content = readFileSync(envPath, 'utf-8');
+        for (const line of content.split('\n')) {
+          const trimmed = line.trim();
+          if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+            const [key, ...valueParts] = trimmed.split('=');
+            const value = valueParts.join('=');
+            // 不覆蓋已存在的環境變數
+            if (key && value && !(key in process.env)) {
+              process.env[key] = value;
+            }
+          }
+        }
+      } catch {
+        // 忽略讀取錯誤
+      }
+    }
+  }
+}
+
+loadEnv();
+
 // Chat 模組
 export { chat, deepseek, openai, gemini, qwen, grok, groq } from './chat/index.js';
 export type { Message, ChatOptions } from './chat/base.js';
