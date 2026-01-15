@@ -9,7 +9,7 @@ meei 測試腳本 - 測試所有 Provider
     meei config set openai.api_key sk-xxx
     meei config set gemini.api_key xxx
     meei config set qwen.api_key sk-xxx
-    meei config set grok.api_key xai-xxx
+    meei config set groq.api_key gsk-xxx
 """
 
 import sys
@@ -28,9 +28,9 @@ TEST_PROMPT = "用一句話介紹你自己"
 PROVIDERS = [
     ("deepseek", "deepseek-chat"),
     ("openai", "gpt-4o-mini"),
-    ("gemini", "gemini-1.5-flash"),
+    ("gemini", "gemini-2.0-flash"),
     ("qwen", "qwen-turbo"),
-    ("grok", "grok-2"),
+    ("groq", "llama-3.3-70b-versatile"),
 ]
 
 

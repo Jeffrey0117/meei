@@ -21,7 +21,7 @@ KEYS = {
     "openai": "",     # https://platform.openai.com/
     "gemini": "",     # https://aistudio.google.com/
     "qwen": "",       # https://dashscope.console.aliyun.com/
-    "grok": "",       # https://console.x.ai/
+    "groq": "",       # https://console.groq.com/
 }
 
 # ===================================
