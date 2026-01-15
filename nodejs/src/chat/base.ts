@@ -26,6 +26,15 @@ export interface ParsedResponse {
   model: string;
 }
 
+// 環境變數名稱對照
+const ENV_KEY_MAP: Record<string, string> = {
+  deepseek: 'DEEPSEEK_API_KEY',
+  openai: 'OPENAI_API_KEY',
+  gemini: 'GEMINI_API_KEY',
+  qwen: 'QWEN_API_KEY',
+  groq: 'GROQ_API_KEY',
+};
+
 export abstract class ChatProvider {
   abstract readonly PROVIDER_NAME: string;
   abstract readonly DEFAULT_MODEL: string;
@@ -34,14 +43,21 @@ export abstract class ChatProvider {
   abstract readonly PRICE_OUTPUT: number;
 
   get apiKey(): string {
-    const key = config.get(`${this.PROVIDER_NAME}.api_key`) as string;
-    if (!key) {
-      throw new AuthenticationError(
-        this.PROVIDER_NAME,
-        `未設定 API key，請執行: meei config set ${this.PROVIDER_NAME}.api_key YOUR_KEY`
-      );
+    // 1. 先從 config 取得
+    const configKey = config.get(`${this.PROVIDER_NAME}.api_key`) as string;
+    if (configKey) return configKey;
+
+    // 2. Fallback 到環境變數
+    const envName = ENV_KEY_MAP[this.PROVIDER_NAME];
+    if (envName) {
+      const envKey = process.env[envName];
+      if (envKey) return envKey;
     }
-    return key;
+
+    throw new AuthenticationError(
+      this.PROVIDER_NAME,
+      `未設定 API key，請設定環境變數 ${ENV_KEY_MAP[this.PROVIDER_NAME] || this.PROVIDER_NAME.toUpperCase() + '_API_KEY'}`
+    );
   }
 
   get baseUrl(): string {

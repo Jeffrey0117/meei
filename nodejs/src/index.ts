@@ -7,6 +7,7 @@
  * - Google Gemini (gemini-1.5-pro, gemini-1.5-flash)
  * - Alibaba Qwen (qwen-turbo, qwen-plus, qwen-max)
  * - xAI Grok (grok-2, grok-2-mini)
+ * - Groq (llama-3.3-70b-versatile, mixtral-8x7b)
  *
  * @example
  * ```typescript
@@ -21,7 +22,7 @@
  */
 
 // Chat 模組
-export { chat, deepseek, openai, gemini, qwen, grok } from './chat/index.js';
+export { chat, deepseek, openai, gemini, qwen, grok, groq } from './chat/index.js';
 export type { Message, ChatOptions } from './chat/base.js';
 
 // Config

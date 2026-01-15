@@ -8,6 +8,7 @@ import { OpenAIChat, openai } from './openai.js';
 import { GeminiChat, gemini } from './gemini.js';
 import { QwenChat, qwen } from './qwen.js';
 import { GrokChat, grok } from './grok.js';
+import { GroqChat, groq } from './groq.js';
 
 // Provider 映射
 const PROVIDERS: Record<string, new () => ChatProvider> = {
@@ -17,6 +18,7 @@ const PROVIDERS: Record<string, new () => ChatProvider> = {
   gemini: GeminiChat,
   qwen: QwenChat,
   grok: GrokChat,
+  groq: GroqChat,
 };
 
 const DEFAULT_PROVIDER = 'deepseek';
@@ -71,3 +73,4 @@ export { OpenAIChat, openai } from './openai.js';
 export { GeminiChat, gemini } from './gemini.js';
 export { QwenChat, qwen } from './qwen.js';
 export { GrokChat, grok } from './grok.js';
+export { GroqChat, groq } from './groq.js';

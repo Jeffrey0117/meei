@@ -18,9 +18,9 @@
 |----------|------|------|
 | DeepSeek | deepseek-chat, deepseek-coder, deepseek-reasoner | chat, coder, r1 |
 | OpenAI | gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo | 4o, 4o-mini, turbo |
-| Gemini | gemini-1.5-pro, gemini-1.5-flash, gemini-2.0-flash-exp | pro, flash, 2.0 |
+| Gemini | gemini-1.5-pro, gemini-1.5-flash, gemini-2.0-flash | pro, flash, 2.0 |
 | Qwen | qwen-turbo, qwen-plus, qwen-max, qwen-long | turbo, plus, max, long |
-| Grok | grok-2, grok-2-mini | 2, mini |
+| Groq | llama-3.3-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b | llama, llama8b, mixtral |
 
 ## 安裝
 
@@ -34,11 +34,33 @@ cd nodejs && npm install && npm run build
 
 ## 設定 API Key
 
+**推薦：設定全局環境變數（所有專案通用）**
+
 ```bash
-meei config set deepseek.api_key sk-xxx
-meei config set openai.api_key sk-xxx
-# 或直接編輯 ~/.meei/config.json
+# Windows (系統環境變數或 PowerShell profile)
+setx DEEPSEEK_API_KEY "sk-xxx"
+setx OPENAI_API_KEY "sk-xxx"
+setx GEMINI_API_KEY "AIza-xxx"
+setx QWEN_API_KEY "sk-xxx"
+setx GROQ_API_KEY "gsk_xxx"
+
+# Linux/Mac (~/.bashrc 或 ~/.zshrc)
+export DEEPSEEK_API_KEY="sk-xxx"
+export OPENAI_API_KEY="sk-xxx"
+export GEMINI_API_KEY="AIza-xxx"
+export QWEN_API_KEY="sk-xxx"
+export GROQ_API_KEY="gsk_xxx"
 ```
+
+**或專案 `.env` 檔案：**
+
+```bash
+# 在專案根目錄建立 .env
+DEEPSEEK_API_KEY=sk-xxx
+OPENAI_API_KEY=sk-xxx
+```
+
+API Key 優先級：環境變數 > ~/.meei/config.json > 專案 .env
 
 ## Quick Start
 

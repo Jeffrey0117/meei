@@ -28,7 +28,7 @@ class QwenChat(ChatProvider):
 
     PROVIDER_NAME = "qwen"
     DEFAULT_MODEL = "qwen-turbo"
-    BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    BASE_URL = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
 
     # 預設價格 (per 1K tokens, 轉換為 USD) - qwen-turbo
     # 匯率約 7.2，所以 ¥0.3/1M ≈ $0.042/1M = $0.000042/1K
