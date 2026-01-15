@@ -43,6 +43,7 @@ Thumbs.db
 *_key.json
 credentials.json
 secrets.json
+setup_env.bat
 
 # Node
 node_modules/
