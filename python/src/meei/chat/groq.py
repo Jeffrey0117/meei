@@ -1,16 +1,15 @@
 """
-xAI Grok Chat Provider
+Groq Chat Provider
 
-Grok API 文檔: https://docs.x.ai/
+Groq API 文檔: https://console.groq.com/docs/quickstart
 
 支援模型:
-- grok-2: 最新版
-- grok-2-mini: 輕量版
-- grok-beta: Beta 版
+- llama-3.3-70b-versatile: Llama 3.3 70B
+- llama-3.1-8b-instant: Llama 3.1 8B (快速)
+- mixtral-8x7b-32768: Mixtral 8x7B
+- gemma2-9b-it: Gemma 2 9B
 
-價格 (per 1M tokens, 2024):
-- grok-2: Input $2.00, Output $10.00
-- grok-2-mini: Input $0.20, Output $1.00
+Groq 提供超快推理速度，適合需要低延遲的場景
 """
 
 from typing import Dict, Any, List, Optional
@@ -18,29 +17,32 @@ from typing import Dict, Any, List, Optional
 from meei.chat.base import ChatProvider
 
 
-class GrokChat(ChatProvider):
-    """xAI Grok Chat Provider"""
+class GroqChat(ChatProvider):
+    """Groq Chat Provider"""
 
-    PROVIDER_NAME = "grok"
-    DEFAULT_MODEL = "grok-2"
-    BASE_URL = "https://api.x.ai/v1"
+    PROVIDER_NAME = "groq"
+    DEFAULT_MODEL = "llama-3.3-70b-versatile"
+    BASE_URL = "https://api.groq.com/openai/v1"
 
-    # 預設價格 (per 1K tokens) - grok-2
-    PRICE_INPUT = 0.002
-    PRICE_OUTPUT = 0.01
+    # 預設價格 (per 1K tokens)
+    PRICE_INPUT = 0.00059
+    PRICE_OUTPUT = 0.00079
 
     # 模型別名對照
     MODEL_ALIASES = {
-        "2": "grok-2",
-        "mini": "grok-2-mini",
-        "beta": "grok-beta",
+        "llama": "llama-3.3-70b-versatile",
+        "llama70b": "llama-3.3-70b-versatile",
+        "llama8b": "llama-3.1-8b-instant",
+        "mixtral": "mixtral-8x7b-32768",
+        "gemma": "gemma2-9b-it",
     }
 
     # 各模型價格 (per 1K tokens)
     MODEL_PRICES = {
-        "grok-2": {"input": 0.002, "output": 0.01},
-        "grok-2-mini": {"input": 0.0002, "output": 0.001},
-        "grok-beta": {"input": 0.002, "output": 0.01},
+        "llama-3.3-70b-versatile": {"input": 0.00059, "output": 0.00079},
+        "llama-3.1-8b-instant": {"input": 0.00005, "output": 0.00008},
+        "mixtral-8x7b-32768": {"input": 0.00024, "output": 0.00024},
+        "gemma2-9b-it": {"input": 0.0002, "output": 0.0002},
     }
 
     def _resolve_model(self, model: str) -> str:
@@ -98,7 +100,7 @@ class GrokChat(ChatProvider):
 
 
 # 便捷函數
-def grok(
+def groq(
     prompt: str,
     model: str = None,
     system: str = None,
@@ -107,22 +109,21 @@ def grok(
     stream: bool = False,
 ):
     """
-    Grok 快捷函數
+    Groq 快捷函數
 
     用法:
-        from meei.chat.grok import grok
+        from meei.chat.groq import groq
 
-        # 簡單對話
-        response = grok("你好")
+        # 簡單對話 (預設 Llama 3.3 70B)
+        response = groq("你好")
 
-        # 使用輕量版
-        response = grok("簡單問題", model="mini")
+        # 快速模型
+        response = groq("快速回答", model="llama8b")
 
-        # 串流輸出
-        for chunk in grok("講個故事", stream=True):
-            print(chunk, end="")
+        # Mixtral
+        response = groq("解釋問題", model="mixtral")
     """
-    provider = GrokChat()
+    provider = GroqChat()
     return provider.chat(
         prompt=prompt,
         model=model,

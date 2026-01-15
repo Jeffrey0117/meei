@@ -19,7 +19,7 @@ ENV_KEY_MAP = {
     "openai": "OPENAI_API_KEY",
     "gemini": "GEMINI_API_KEY",
     "qwen": "QWEN_API_KEY",
-    "grok": "GROK_API_KEY",
+    "groq": "GROQ_API_KEY",
 }
 
 

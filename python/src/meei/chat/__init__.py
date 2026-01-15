@@ -8,7 +8,7 @@ from meei.chat.deepseek import DeepSeekChat
 from meei.chat.openai import OpenAIChat
 from meei.chat.gemini import GeminiChat
 from meei.chat.qwen import QwenChat
-from meei.chat.grok import GrokChat
+from meei.chat.groq import GroqChat
 from meei.config import config
 
 # Provider 映射
@@ -18,7 +18,7 @@ PROVIDERS: Dict[str, type] = {
     "chatgpt": OpenAIChat,  # alias
     "gemini": GeminiChat,
     "qwen": QwenChat,
-    "grok": GrokChat,
+    "groq": GroqChat,
 }
 
 # 預設 provider
@@ -58,7 +58,7 @@ class Chat:
 
         Args:
             prompt: 用戶訊息
-            pv: provider 名稱 (deepseek/openai/gemini/qwen/grok)
+            pv: provider 名稱 (deepseek/openai/gemini/qwen/groq)
             model: 模型名稱（不指定則用 provider 預設）
             system: 系統提示詞
             temperature: 溫度 (0-2)

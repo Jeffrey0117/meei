@@ -30,26 +30,27 @@ class GeminiChat(ChatProvider):
     """Google Gemini Chat Provider"""
 
     PROVIDER_NAME = "gemini"
-    DEFAULT_MODEL = "gemini-1.5-flash"
+    DEFAULT_MODEL = "gemini-2.0-flash"
     BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 
-    # 預設價格 (per 1K tokens) - gemini-1.5-flash
-    PRICE_INPUT = 0.000075
-    PRICE_OUTPUT = 0.0003
+    # 預設價格 (per 1K tokens) - gemini-2.0-flash
+    PRICE_INPUT = 0.0
+    PRICE_OUTPUT = 0.0
 
     # 模型別名對照
     MODEL_ALIASES = {
         "pro": "gemini-1.5-pro",
-        "flash": "gemini-1.5-flash",
-        "2.0": "gemini-2.0-flash-exp",
+        "flash": "gemini-2.0-flash",
+        "2.0": "gemini-2.0-flash",
+        "1.5": "gemini-1.5-flash",
         "1.0": "gemini-1.0-pro",
     }
 
     # 各模型價格 (per 1K tokens)
     MODEL_PRICES = {
+        "gemini-2.0-flash": {"input": 0.0, "output": 0.0},
         "gemini-1.5-pro": {"input": 0.00125, "output": 0.005},
         "gemini-1.5-flash": {"input": 0.000075, "output": 0.0003},
-        "gemini-2.0-flash-exp": {"input": 0.0, "output": 0.0},  # 免費實驗版
         "gemini-1.0-pro": {"input": 0.0005, "output": 0.0015},
     }
 
