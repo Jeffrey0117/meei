@@ -1,8 +1,10 @@
 # meei
 
-**Unified AI SDK for Developers** - 統一多家 LLM 的程式介面
+**My AI, My Way** *(Who uses AI? meeeee!)*
 
-> 這是開發用的 SDK，讓你在程式碼中用同一套 API 呼叫 DeepSeek、OpenAI、Gemini、Qwen、Groq 等 LLM。
+Unified AI SDK - 統一多家 LLM 的程式介面
+
+> 一套 API 呼叫 DeepSeek、OpenAI、Gemini、Qwen、Groq 等 LLM。
 > 支援 Python 和 Node.js/TypeScript。
 
 ## 為什麼用 meei？
